@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model List<Message>
+
+<div class="text-center">
+    <h2 class ="display-4">Chat with @TempData.Peek("ReceiverEmail")</h2>
+    @{
+        if (SignInManager.IsSignedIn(User))
+        {
+            foreach(Message m in Model)
+            {
+                string messageClass = "otherMessage";
+                if (m.SenderTag == UserManager.GetUserId(User))
+                    messageClass = "myMessage";
+                <div class=@messageClass>
+                    @{
+                        if(messageClass == "myMessage")
+                        {
+                            <form method="post">
+                                @m.Content
+                                <input type="hidden" name="id" value="@m.Id" />
+                                <button class="btn btn-secondary" asp-controller="Dialog" asp-action="EditMessage"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-danger" asp-controller="Dialog" asp-action="DeleteMessage"><i class="bi bi-trash"></i></button>
+                            </form>
+                        }
+                        else
+                        {
+                            @m.Content
+                        }
+                    }
+                </div>
+            }
+        }
+        <form method="post">
+            <button class="btn btn-secondary" asp-controller="ChooseDialog">Back</button>
+            <input type="text" name="newMessage"/>
+            <button class="btn btn-primary" asp-controller="Dialog" asp-action="SendMessage">Send</button>
+        </form>
+    }
+</div>

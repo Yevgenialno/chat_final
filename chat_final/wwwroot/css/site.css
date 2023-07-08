@@ -1,0 +1,41 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    justify-content: center;
+}
+
+.text-center {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%,0%);
+    background-color: #76D4F0;
+}
+
+.myMessage {
+    background-color: blueviolet;
+    color: white;
+    text-align: right;
+}
+
+.otherMessage {
+    background-color: beige;
+    text-align: left;
+}

@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@model List<IdentityUser>
+<div class="text-center">
+    @{
+        <h2 class="display-4">Your messages</h2>
+        foreach(IdentityUser u in Model)
+        {
+            <form method="post">
+                <input type="hidden" name="receiver" value="@u.Email" />
+                <input type="hidden" name="receiverId" value="@u.Id" />
+                <button class="btn btn-secondary" asp-controller="Dialog">@u.Email</button>
+                <br>
+                <hr>
+            </form>
+        }
+        <form method="post">
+            <p>
+                New chat with: <input type="text" name="newAddresseeTag">
+                <button class="btn btn-primary" asp-controller="Dialog" asp-action="CreateDialog">Create</button>
+            </p>
+        </form>
+    }
+</div>
