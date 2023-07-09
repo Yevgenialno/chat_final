@@ -21,8 +21,11 @@ public partial class ChatDbContext : IdentityDbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-TJULRNC;Initial Catalog=ChatDB_;Integrated Security=True; TrustServerCertificate=True");
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    {
+        var builder = WebApplication.CreateBuilder();
+        optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("ChatDbContextConnection"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
