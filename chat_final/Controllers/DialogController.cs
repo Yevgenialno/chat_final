@@ -64,20 +64,19 @@ namespace chat_final.Controllers
                 TempData["ReceiverEmail"] = newAddresseeTag;
                 IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
                 List<Models.Message> messages = _db.Messages.Where(m => (m.Sender == user && m.Receiver.Id ==   newAddresseeTag) || (m.Receiver == user && m.Sender.Id == newAddresseeTag)).ToList();
-                if(!_db.StartedDialogs.Any(d => d.FirstUser == user && d.SecondUser == newAddressee))
+                if(!_db.StartedDialogs.Any(d => d.FirstUser.Id == user.Id && d.SecondUser.Id == newAddressee.Id))
                 {
                     _db.StartedDialogs.Add(new Dialog(user, newAddressee));
                     _db.StartedDialogs.Add(new Dialog(newAddressee, user));
                     _db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new {receiver = newAddressee.Email, receiverId = newAddressee.Id});
             }
             else
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 List<IdentityUser> startedDialogs = _db.StartedDialogs.Where(d => d.FirstUser == user).Select(d => d.SecondUser).ToList();
                 return RedirectToAction("Index", "ChooseDialog");
-                //return View("../ChooseDialog/Index", startedDialogs);
             }
         }
 
